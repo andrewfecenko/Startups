@@ -10,14 +10,12 @@ db.engine.execute(schema)
 # create the database and the db table
 db.create_all()
 
-user1 = users("123", "tona.arbeiter@gmail.com", "Arbeiter", "Tona")
-user2 = users("123", "vannesa.glassford@hotmail.com", "Glassford", "Vannesa")
-user3 = users("123", "aracelis@gmail.com", "James", "Aracelis")
-main_user = users("123", "main@test.com", "User", "Main")
+user1 = users("123", "test@test.com", "Andrew", "Fecenko")
+idea1 = ideas("Idea 1", "Idea 1 Description", 10)
+idea2 = ideas("Idea 2", "Idea 2 Description", 0)
 db.session.add(user1)
-db.session.add(user2)
-db.session.add(user3)
-db.session.add(main_user)
+db.session.add(idea1)
+db.session.add(idea2)
 db.session.commit()
 
 

@@ -69,7 +69,7 @@ def login():
             'login.html', login_form=login_form, reg_form=reg_form,)
 
     return render_template(
-        'login.html', error=login_form.errors, reg_form=reg_form,
+        'login.html', error=login_form.errors['email'][0], reg_form=reg_form,
         login_form=login_form)
 
 
@@ -102,11 +102,38 @@ def register():
 def user(**kwargs):
     return user_search(current_user.user_id, **kwargs)
 
-@app.route("/add_idea")
+@app.route("/view_idea")
+@login_required
+def view_ideas(**kwargs):
+    all_ideas = ideas.query.order_by(ideas.likes).all()
+    all_ideas.reverse()
+    idea_list = []
+    for idea in all_ideas:
+        temp_idea = {'likes': idea.likes,
+            'link': "/idea/"+str(idea.idea_id),
+            'name': idea.idea_name}
+        idea_list.append(temp_idea)
+    return render_template('view_idea.html', current_user=current_user, idea_list=idea_list)
+
+@app.route("/idea/<int:query>")
+@login_required
+def idea(query, **kwargs):
+    return render_template('view_idea.html', current_user=current_user)
+
+@app.route("/add_idea", methods=['GET', 'POST'])
 @login_required
 def add_idea(**kwargs):
+    add_form = AddForm()
+    if request.method == 'POST' and add_form.validate_on_submit() != False:
+        idea = ideas(
+            idea_name=add_form.name.data,
+            desc=add_form.desc.data)
+        db.session.add(idea)
+        db.session.commit()
+        flash('Thanks for adding your idea')
+        return redirect(url_for('home'))
 
-    return render_template('add_idea.html', current_user=current_user)
+    return render_template('add_idea.html', current_user=current_user, add_form=add_form)
 
 @app.route("/logout")
 @login_required

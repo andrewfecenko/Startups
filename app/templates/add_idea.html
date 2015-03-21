@@ -8,5 +8,14 @@
       {{error}}
     </div>
   {% endif %}
+  <form role="form" action="{{ url_for('add_idea') }}" method="POST">
+    {{ add_form.name (placeholder="Idea Name", class="form-control") }}
+    <br>
+    {{ add_form.desc (placeholder="Idea", class="form-control") }}
+    <br>
+    {{ add_form.csrf_token }}
+    <br>
+    <button type="submit" value="Sign Up" class="btn btn-default">Submit</button>
+  </form>
 </div>
 {% endblock %}

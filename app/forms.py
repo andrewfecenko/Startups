@@ -7,6 +7,15 @@ from models import users
 from server import db
 from app import bcrypt
 
+class AddForm(Form):
+	name = TextField('Idea Name', [validators.required(), validators.length(max=20)])
+	desc = TextField('Description', [validators.required(), validators.length(max=200)])
+
+	def validate(self):
+		if not Form.validate(self):
+			return False
+		else:
+			return True
 
 class LoginForm(Form):
     email = EmailField('Email Address', [validators.Required(), validators.Email(), validators.Length(min=1, max=35)])
