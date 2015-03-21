@@ -1,0 +1,12 @@
+{% extends "template.html" %}
+
+{% block body %}
+<div class="container well">
+  <h2>Add Idea</h2>
+  {% if error %}
+    <div>
+      {{error}}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
