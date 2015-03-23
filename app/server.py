@@ -105,8 +105,7 @@ def user(**kwargs):
 @app.route("/view_idea")
 @login_required
 def view_ideas(**kwargs):
-    all_ideas = ideas.query.order_by(ideas.likes).all()
-    all_ideas.reverse()
+    all_ideas = ideas.query.order_by(ideas.likes.desc()).all()
     idea_list = []
     for idea in all_ideas:
         temp_idea = {'likes': idea.likes,
@@ -118,7 +117,12 @@ def view_ideas(**kwargs):
 @app.route("/idea/<int:query>")
 @login_required
 def idea(query, **kwargs):
-    return render_template('view_idea.html', current_user=current_user)
+    idea = ideas.query.filter_by(idea_id=query).first()
+    output = {
+        'idea_name': idea.idea_name,
+        'idea_desc': idea.desc
+    }
+    return render_template('idea.html', current_user=current_user, **output)
 
 @app.route("/add_idea", methods=['GET', 'POST'])
 @login_required

@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form, RecaptchaField
-from wtforms import BooleanField, StringField, TextField, PasswordField, validators
+from wtforms import BooleanField, StringField, TextAreaField, TextField, PasswordField, validators
 from wtforms.validators import DataRequired,InputRequired, Email
-from wtforms.fields.html5 import EmailField  
+from wtforms.fields.html5 import EmailField
 from flask.ext.login import current_user
 from models import users
 from server import db
@@ -9,7 +9,7 @@ from app import bcrypt
 
 class AddForm(Form):
 	name = TextField('Idea Name', [validators.required(), validators.length(max=20)])
-	desc = TextField('Description', [validators.required(), validators.length(max=200)])
+	desc = TextAreaField('Description', [validators.required(), validators.length(max=500)])
 
 	def validate(self):
 		if not Form.validate(self):

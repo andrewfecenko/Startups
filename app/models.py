@@ -47,11 +47,13 @@ class ideas(db.Model):
 	idea_name=db.Column(db.String(50),nullable=False)
 	desc=db.Column(db.String(1000),nullable=False)
 	likes=db.Column(db.Integer,nullable=False)
+	owner_id=db.Column(db.Integer,db.ForeignKey('users.user_id'))
 
-	def __init__(self, idea_name, desc, likes=0):
+	def __init__(self, idea_name, desc,  owner_id, likes=0):
 		self.idea_name=idea_name.capitalize()
 		self.desc = desc.capitalize()
 		self.likes = likes
+		self.owner_id = owner_id
 
 
 

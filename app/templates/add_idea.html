@@ -9,9 +9,17 @@
     </div>
   {% endif %}
   <form role="form" action="{{ url_for('add_idea') }}" method="POST">
-    {{ add_form.name (placeholder="Idea Name", class="form-control") }}
+  	<div class="row">
+  		<div class="col-sm-4 column">
+ 	 	  {{ add_form.name (placeholder="Idea Name", class="form-control") }}
+ 		</div>
+  	</div>
     <br>
-    {{ add_form.desc (placeholder="Idea", class="form-control") }}
+    <div class="row">
+    	<div class="col-sm-8 column">
+   	  	  {{ add_form.desc (placeholder="Description...", class="form-control") }}
+   	  	</div>
+   	</div>
     <br>
     {{ add_form.csrf_token }}
     <br>
