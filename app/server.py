@@ -118,11 +118,14 @@ def view_ideas(**kwargs):
 @login_required
 def idea(query, **kwargs):
     idea = ideas.query.filter_by(idea_id=query).first()
-    output = {
-        'idea_name': idea.idea_name,
-        'idea_desc': idea.desc
-    }
-    return render_template('idea.html', current_user=current_user, **output)
+    if (idea != None):
+        output = {
+            'idea_name': idea.idea_name,
+            'idea_desc': idea.desc
+        }
+        return render_template('idea.html', current_user=current_user, **output)
+    else:
+        return render_template('idea.html', current_user=current_user, error="Page not found")
 
 @app.route("/add_idea", methods=['GET', 'POST'])
 @login_required
