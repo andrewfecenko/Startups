@@ -1,0 +1,92 @@
+{% extends "template.html" %}
+
+{% block body %}
+<div class="row fluid">
+  <div class="col-md-4 column fluid">
+    <div class="container well fluid">
+      <h2>Generate JSON</h2>
+      <form method="POST">
+        <div class="row">
+          <div class="col-sm-2 column">
+            {% if json_form.errors['num'] %}
+              <strong> *{{ json_form.errors['num'][0] }} </strong> 
+            {% endif %}
+            {{ json_form.num (class="form-control", placeholder="Number of entries") }}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6 column">
+            {% if json_form.errors['startdate'] %}
+              <strong> *{{ json_form.errors['startdate'][0] }} </strong> 
+            {% endif %}
+            {{ json_form.startdate (class="form-control", placeholder="Start Date (YYYY-mm-dd)") }}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6 column">
+            {% if json_form.errors['enddate'] %}
+              <strong> *{{ json_form.errors['enddate'][0] }} </strong> 
+            {% endif %}
+            {{ json_form.enddate (class="form-control", placeholder="End Date (YYYY-mm-dd)") }}
+          </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-default">Generate</button>
+      </form>
+    <br>
+    </div>
+    <div class="container fluid">
+      <div class="col-md-3 column"></div>
+      {% if not idea_list %}
+      <h5>There are no ideas</h5>
+      {% endif %}
+      <div class="col-md-6 column">
+        <ul class="list-group">
+        {% for idea in idea_list %}
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-xs-3 column">
+              </div>
+              <div class="col-xs-6 column">
+                <div class="text-center">
+                  <a href="/idea/{{idea.idea_id}}"><h4>{{ idea.idea_name }}</h4></a>
+                </div>
+              </div>
+              <div class="col-xs-3 column">
+                <div class="text-right">
+                  <span class="badge"><h6>{{ idea.likes }}</h6></span>
+                </div>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="container fluid">
+      {% if results %}
+        {<br>
+        "num": {{output.num}}<br>
+        "startdate": "{{output.startdate}}"<br>
+        "enddate": "{{output.enddate}}"<br>
+        "results": [<br>
+        {% for result in results %}
+          &nbsp;&nbsp;&nbsp;&nbsp; {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "idea_name": "{{ result.idea_name }}"<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "idea_id": {{ result.idea_id }}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "{{ result.desc }}"<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "likes": {{ result.likes }}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "owner_id": {{ result.owner_id }}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "indsutry": {{ result.industry }}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "date": "{{ result.date }}"<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "tags": "{{ result.tags }}"<br>
+        {% endfor %}
+        &nbsp;&nbsp;&nbsp;&nbsp;}]<br>
+        }
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

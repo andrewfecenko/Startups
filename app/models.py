@@ -48,13 +48,29 @@ class ideas(db.Model):
 	desc=db.Column(db.String(1000),nullable=False)
 	likes=db.Column(db.Integer,nullable=False)
 	owner_id=db.Column(db.Integer,db.ForeignKey('users.user_id'))
+	industry=db.Column(db.Integer,nullable=False)
+	date=db.Column(db.DateTime, default=db.func.now())
+	tags=db.Column(db.String(500),nullable=False)
 
-	def __init__(self, idea_name, desc,  owner_id, likes=0):
+	def __init__(self, idea_name, desc, industry, owner, tags, likes=0):
 		self.idea_name=idea_name.capitalize()
 		self.desc = desc.capitalize()
 		self.likes = likes
-		self.owner_id = owner_id
+		self.industry = industry
+		self.owner_id = owner
+		self.tags = tags
 
+class interest(db.Model):
+	"""docstring for interest"""
+	__table_args__ = {'extend_existing': True}
+	__tablename__ = 'interest'
+	idea_id = db.Column(db.Integer,db.ForeignKey('ideas.idea_id'), primary_key=True)
+	user_id = db.Column(db.Integer,db.ForeignKey('users.user_id'))
+	like = db.Column(db.Boolean)
 
+	def __init__(self, idea_id, user_id, like):
+		self.idea_id = idea_id
+		self.user_id = user_id
+		self.like = like
 
 

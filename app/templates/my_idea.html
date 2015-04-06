@@ -1,0 +1,38 @@
+{% extends "template.html" %}
+
+{% block body %}
+<div class="row fluid">
+<div class="col-md-4 column fluid">
+<div class="container well fluid">
+  <h2>My Ideas</h2>
+  <div class="col-md-3 column"></div>
+  <div class="col-md-6 column">
+    {% if not idea_list %}
+    <h5>You have not added any ideas</h5>
+    {% endif %}
+    <ul class="list-group">
+    {% for idea in idea_list %}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-xs-3 column">
+             <a href="/edit/{{idea.idea_id}}"><h4>Edit</h4></a>
+          </div>
+          <div class="col-xs-6 column">
+            <div class="text-center">
+              <a href="/idea/{{idea.idea_id}}"><h4>{{ idea.idea_name }}</h4></a>
+            </div>
+          </div>
+          <div class="col-xs-3 column">
+            <div class="text-right">
+              <span class="badge"><h6>{{ idea.likes }}</h6></span>
+            </div>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}

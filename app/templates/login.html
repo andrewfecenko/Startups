@@ -9,17 +9,16 @@
     </div>
   {% endif %}
   <form role="form" action="{{ url_for('login') }}" method="POST">
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" placeholder="Enter your email" id="email" name="email" value="{{request.form.email }}">
-    </div>
-    <div class="form-group">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" placeholder="Enter your password" id="pwd" name="password" value="{{request.form.password }}">
-    </div>
-    <div class="checkbox">
-      <label><input type="checkbox"> Remember me</label>
-    </div>
+    {% if login_form.errors['email'] %}
+      <strong> *{{ login_form.errors['email'][0] }}</strong>
+    {% endif %}
+    {{ login_form.email (placeholder="Enter your email", class="form-control")}}
+    <br>
+    {% if login_form.errors['password'] %}
+      <strong> *{{ login_form.errors['password'][0] }}</strong>
+    {% endif %}
+    {{ login_form.password (placeholder="Enter your password", class="form-control")}}
+    <br>
     {{ login_form.csrf_token }}
     <button type="submit" class="btn btn-default">Submit</button>
   </form>

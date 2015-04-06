@@ -1,1 +1,2 @@
-DROP TABLE IF EXISTS users CASCADE;
+DROP schema public cascade;
+create schema public;

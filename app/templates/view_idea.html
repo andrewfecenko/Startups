@@ -5,23 +5,59 @@
 <div class="col-md-4 column fluid">
 <div class="container well fluid">
   <h2>View Ideas</h2>
-  {% if error %}
-    <div>
-      {{error}}
+  <form>
+    <div class="row">
+      <div class="col-sm-4 column">
+        {{ sort_form.keyword (class="form-control") }}
+      </div>
     </div>
-  {% endif %}
+    <br>
+    <div class="row">
+      <div class="col-sm-4 column">
+        {{ sort_form.sort (class="form-control") }}
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-6 column">
+        {{ sort_form.tags (placeholder="Tags", class="form-control") }}
+      </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-default">Search</button>
+  </form>
+  <br>
+  </div>
+<div class="container fluid">
   <div class="col-md-3 column"></div>
+  {% if not idea_list %}
+  <h5>There are no ideas</h5>
+  {% endif %}
   <div class="col-md-6 column">
     <ul class="list-group">
     {% for idea in idea_list %}
       <li class="list-group-item">
         <div class="row">
           <div class="col-xs-3 column">
-            <h2><span class="glyphicon glyphicon-thumbs-up"></span></h2>
+            <h4>
+              {% if idea.display=="both" or idea.display=="up" %}
+              <a href = "/like?id={{idea.id}}&val=1&url={{idea.url}}">
+                <span class="glyphicon glyphicon-thumbs-up"></span></a>
+              {% else %}
+              <span class="glyphicon glyphicon-thumbs-up"></span>
+              {% endif %}
+              &nbsp
+              {% if idea.display=="both" or idea.display=="down" %}
+              <a href = "/like?id={{idea.id}}&val=0&url={{idea.url}}">
+                <span class="glyphicon glyphicon-thumbs-down"></span></a>
+              {% else %}
+              <span class="glyphicon glyphicon-thumbs-down"></span>
+              {% endif %}
+            </h4>
           </div>
           <div class="col-xs-6 column">
             <div class="text-center">
-              <a href={{idea.link}}><h3>{{ idea.name }}</h3></a>
+              <a href="/idea/{{idea.id}}"><h4>{{ idea.name }}</h4></a>
             </div>
           </div>
           <div class="col-xs-3 column">
